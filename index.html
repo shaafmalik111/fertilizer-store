@@ -1,0 +1,374 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Fertilizer Store Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--g9:#123d2b;--g7:#1f6b46;--g1:#e7f3ea;--gold:#c9a24a;--bg:#f5f8f4;--card:#fff;--tx:#17261d;--mu:#5d6d63;--ln:#dde6de;--bad:#b3392f;--warn:#9a6200;--ok:#1f7a4d;--bb:#fbe9e7;--wb:#fff3d6;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--g1:#1b3326;--bg:#0e1913;--card:#15241b;--tx:#e8efe9;--mu:#9aab9f;--ln:#263a2e;--bad:#ff8d82;--warn:#f0c36a;--ok:#6fd49c;--bb:#3a1d1a;--wb:#3a2f12;color-scheme:dark}}
+:root[data-theme="dark"]{--g1:#1b3326;--bg:#0e1913;--card:#15241b;--tx:#e8efe9;--mu:#9aab9f;--ln:#263a2e;--bad:#ff8d82;--warn:#f0c36a;--ok:#6fd49c;--bb:#3a1d1a;--wb:#3a2f12;color-scheme:dark}
+*{box-sizing:border-box}html,body{height:auto}body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.5 "Plus Jakarta Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;margin:0}h1{font-size:1.7rem}h2{font-size:1.15rem}
+#sb{position:fixed;left:0;top:0;bottom:0;width:250px;background:var(--g9);color:#e8f2eb;padding:calc(18px + env(safe-area-inset-top,0px)) 14px 18px;display:flex;flex-direction:column;gap:4px;z-index:30;transition:transform .25s}
+.brand{display:flex;gap:10px;align-items:center;padding:4px 8px 16px;border-bottom:1px solid #ffffff22;margin-bottom:10px}.brand b{font:700 1.05rem Fraunces,serif;line-height:1.2}.logo{width:38px;height:38px;border-radius:50%;border:2px solid var(--gold);display:grid;place-items:center;color:var(--gold);flex:none}
+#sb a{display:flex;gap:11px;align-items:center;padding:10px 12px;border-radius:10px;color:#cfe3d5;text-decoration:none;font-weight:500;cursor:pointer;transition:background .15s}#sb a:hover{background:#ffffff14}#sb a.on{background:var(--g7);color:#fff;box-shadow:inset 3px 0 var(--gold)}
+svg.i{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sf{margin-top:auto;font-size:.8rem;color:#a9c4b3;padding:8px}
+#app{margin-left:250px;min-height:100vh}#top{display:none}main{padding:26px 30px 50px;max-width:1200px;margin:auto}
+.hd{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:20px}.hd p{margin:4px 0 0;color:var(--mu)}
+.hd h1:after{content:"";display:block;width:46px;height:3px;background:var(--gold);margin-top:8px;border-radius:2px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));margin-bottom:22px}
+.st{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:16px;border-top:3px solid var(--g7)}.st.warn{border-top-color:var(--gold)}.st.bad{border-top-color:var(--bad)}.st small{color:var(--mu);font-weight:500}.st div{font:700 1.6rem Fraunces,serif;margin-top:4px}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:14px;padding:18px;margin-bottom:20px}.two{display:grid;gap:20px;grid-template-columns:1fr 1fr}
+.tw{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--ln);white-space:nowrap}th{background:var(--g1);font-weight:600;color:var(--g7)}tr:hover td{background:color-mix(in srgb,var(--g1) 45%,transparent)}.r{text-align:right}
+.bd{display:inline-block;padding:2px 10px;border-radius:20px;font-size:.78rem;font-weight:600}.ok{background:var(--g1);color:var(--ok)}.low{background:var(--wb);color:var(--warn)}.out{background:var(--bb);color:var(--bad)}
+button,.btn{font:inherit;font-weight:600;border:0;border-radius:10px;padding:9px 16px;cursor:pointer;background:var(--g7);color:#fff;transition:transform .1s,filter .15s}button:hover{filter:brightness(1.1)}button:active{transform:scale(.97)}
+.sec{background:var(--g1);color:var(--g7)}.gold{background:var(--gold);color:#2b2208}.dng{background:var(--bad);color:#fff}.sm{padding:5px 10px;font-size:.8rem}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+label{display:block;font-weight:600;font-size:.85rem;margin-bottom:5px}input,select,textarea{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--ln);border-radius:10px;background:var(--card);color:var(--tx)}input:focus,select:focus,textarea:focus{border-color:var(--g7);outline:2px solid var(--gold)}
+.fg{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.full{grid-column:1/-1}.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.bar>*{flex:1 1 170px}.bar input{flex:2 1 240px}
+.er{background:var(--bb);color:var(--bad);border-radius:10px;padding:10px 14px;margin-bottom:14px}.er:empty{display:none}.em{text-align:center;color:var(--mu);padding:26px}
+.th{width:38px;height:38px;border-radius:8px;object-fit:cover;vertical-align:middle;margin-right:8px;background:var(--g1)}
+.ov{position:fixed;inset:0;background:#0009;display:grid;place-items:center;z-index:50;padding:16px;overflow:auto}.mb{background:var(--card);border-radius:16px;max-width:520px;width:100%;padding:22px;max-height:92vh;overflow:auto;animation:pop .2s}@keyframes pop{from{transform:scale(.95);opacity:0}}
+.dl{display:grid;grid-template-columns:130px 1fr;gap:6px 10px;margin:12px 0}.dl dt{color:var(--mu)}.dl dd{margin:0;font-weight:500}
+#ts{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60}.t{background:var(--g9);color:#fff;padding:10px 18px;border-radius:10px;margin-top:8px;border-left:4px solid var(--gold);animation:pop .2s}.t.bad{background:var(--bad)}
+#rc{font-family:ui-monospace,Menlo,monospace;font-size:.85rem}#rc h3{text-align:center}#rc p{margin:6px 0}.tot{font-weight:700;font-size:1.05rem;text-align:right}
+@media(max-width:860px){#sb{transform:translateX(-100%)}#sb.open{transform:none;box-shadow:0 0 0 100vmax #0007}#app{margin:0}#top{display:flex;align-items:center;gap:12px;background:var(--g9);color:#fff;padding:10px 16px;position:sticky;top:env(safe-area-inset-top,0px);z-index:20}#top button{background:#ffffff22;padding:6px 10px}main{padding:18px 14px 40px}.two{grid-template-columns:1fr}}
+@media print{#sb,#app,#ts,.noprint{display:none!important}.ov{position:static;background:none;padding:0}.mb{box-shadow:none;max-width:none;animation:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style></head><body>
+<aside id="sb"></aside><div id="app"><header id="top"><button data-a="menu" aria-label="Open menu">☰</button><b id="tn"></b></header><main id="main"></main></div><div id="md"></div><div id="ts"></div>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const K='fsms_v1',CATS=['Fertilizer','Pesticide','Herbicide','Fungicide','Seeds','Micronutrients','Other'];
+const ic=d=>`<svg class="i" viewBox="0 0 24 24"><path d="${d}"/></svg>`;
+const NAV=[['dashboard','Dashboard','M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z'],['products','All Products','M21 8l-9-5-9 5v8l9 5 9-5zM3 8l9 5 9-5M12 13v8'],['add','Add Product','M12 5v14M5 12h14'],['stock','Stock Management','M17 1l4 4-4 4M3 11V9a4 4 0 014-4h14M7 23l-4-4 4-4M21 13v2a4 4 0 01-4 4H3'],['sales','Sales','M3 4h2l2.5 11h10L20 7H6M9 20h.01M17 20h.01'],['history','Sales History','M3 12a9 9 0 109-9 9 9 0 00-6.4 2.6L3 8M3 3v5h5M12 7v5l3 2'],['reports','Reports','M4 20V10M10 20V4M16 20v-8M22 20H2'],['settings','Settings','M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M14 4v4M8 10v4M16 16v4']];
+let S,editId=null,img='',Q={q:'',c:'',s:''},cart=[];
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const rs=n=>'Rs '+Math.round(n).toLocaleString('en-PK'),fd=t=>new Date(t).toLocaleString('en-PK',{dateStyle:'medium',timeStyle:'short'});
+const find=id=>S.p.find(p=>p.id===id),nm=p=>p.name+' '+p.size;
+function save(){try{localStorage.setItem(K,JSON.stringify(S))}catch(e){toast('Could not save on this device. Browser storage may be blocked or full.',1)}}
+function mv(p,type,qty,note){if(qty)S.m.unshift({t:Date.now(),id:p.id,name:nm(p),type,qty,after:p.qty,note:note||''});S.m=S.m.slice(0,1000)}
+function addP(d){S.n++;const p={id:'P'+String(S.n).padStart(3,'0'),...d,created:Date.now()};S.p.push(p);mv(p,'Opening stock',p.qty);return p}
+function init(){try{S=JSON.parse(localStorage.getItem(K))}catch(e){}
+if(!S||!S.p){S={set:{name:'Your Fertilizer Store',phone:'0300-4502900',limit:10},p:[],m:[],s:[],n:0,sn:0};
+save()}else if(S.p.some(p=>p.desc==='Sample product. Edit or delete it.')){const sp=S.p.filter(p=>p.desc==='Sample product. Edit or delete it.').map(p=>p.id);S.p=S.p.filter(p=>!sp.includes(p.id));S.m=S.m.filter(m=>!sp.includes(m.id));if(!S.p.length&&!S.s.length)S.n=0;save()}}
+const st=p=>p.qty<=0?'out':p.qty<=S.set.limit?'low':'ok',bd=p=>`<span class="bd ${st(p)}">${{ok:'In stock',low:'Low stock',out:'Out of stock'}[st(p)]}</span>`;
+function toast(m,bad){const e=document.createElement('div');e.className='t'+(bad?' bad':'');e.textContent=m;$('#ts').append(e);setTimeout(()=>e.remove(),3200)}
+function modal(h){$('#md').innerHTML=`<div class="ov"><div class="mb" role="dialog">${h}</div></div>`}
+const closeM=()=>$('#md').innerHTML='';
+const head=(t,s,x='')=>`<div class="hd"><div><h1>${t}</h1>${s?`<p>${s}</p>`:''}</div>${x}</div>`;
+const tbl=(h,r,e)=>r.length?`<div class="tw"><table><thead><tr>${h.map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${r.join('')}</tbody></table></div>`:`<div class="em">${e}</div>`;
+const opts=(a,v)=>a.map(x=>`<option${x===v?' selected':''}>${esc(x)}</option>`).join('');
+const pOpts=f=>S.p.filter(f||(()=>1)).map(p=>`<option value="${p.id}">${esc(nm(p))} · ${esc(p.brand)} (stock ${p.qty})</option>`).join('');
+const V={};
+V.dashboard=()=>{const P=S.p,tot=P.reduce((a,p)=>a+p.qty,0),val=P.reduce((a,p)=>a+p.qty*p.buy,0),al=P.filter(p=>st(p)!=='ok'),rec=[...P].sort((a,b)=>b.created-a.created).slice(0,5);
+const c=(l,v,k='')=>`<div class="st ${k}"><small>${l}</small><div>${v}</div></div>`;
+return head(esc(S.set.name),'Fertilizer and agricultural products · Pakistan')+`<div class="grid">${c('Total products',P.length)}${c('Units in stock',tot.toLocaleString())}${c('Low stock',al.filter(p=>st(p)=='low').length,'warn')}${c('Out of stock',al.filter(p=>st(p)=='out').length,'bad')}${c('Inventory value (at cost)',rs(val))}</div>
+<div class="two"><div class="card"><h2>Needs restocking</h2>${tbl(['Product','Stock','Status'],al.map(p=>`<tr><td>${esc(nm(p))}</td><td>${p.qty}</td><td>${bd(p)}</td></tr>`),'Every product has enough stock.')}</div>
+<div class="card"><h2>Recently added products</h2>${tbl(['Product','Brand','Added'],rec.map(p=>`<tr><td>${esc(nm(p))}</td><td>${esc(p.brand)}</td><td>${fd(p.created)}</td></tr>`),'No products yet. Use Add Product to start.')}</div></div>`};
+const rows=()=>{const q=Q.q.toLowerCase();return S.p.filter(p=>(!q||(p.name+' '+p.brand).toLowerCase().includes(q))&&(!Q.c||p.cat===Q.c)&&(!Q.s||st(p)===Q.s)).map(p=>`<tr><td>${p.id}</td><td>${p.img?`<img class="th" src="${p.img}" alt="">`:''}${esc(p.name)}</td><td>${esc(p.brand)}</td><td>${esc(p.cat)}</td><td>${esc(p.size)}</td><td class="r">${rs(p.buy)}</td><td class="r">${rs(p.sell)}</td><td class="r">${p.qty}</td><td>${bd(p)}</td><td><button class="sm sec" data-a="view" data-id="${p.id}">View</button> <button class="sm gold" data-a="edit" data-id="${p.id}">Edit</button> <button class="sm dng" data-a="del" data-id="${p.id}">Delete</button></td></tr>`)};
+const ptable=()=>tbl(['ID','Product','Company','Category','Size','Purchase','Selling','Stock','Status','Actions'],rows(),'No products match. Change the search or filters.');
+V.products=()=>head('All Products',`${S.p.length} products in store`,'<button data-a="new">+ Add Product</button>')+`<div class="card"><div class="bar"><input id="fq" type="search" placeholder="Search by product or company name" value="${esc(Q.q)}" aria-label="Search"><select id="fc" aria-label="Category"><option value="">All categories</option>${opts(CATS,Q.c)}</select><select id="fs" aria-label="Status"><option value="">All stock status</option><option value="ok"${Q.s=='ok'?' selected':''}>In stock</option><option value="low"${Q.s=='low'?' selected':''}>Low stock</option><option value="out"${Q.s=='out'?' selected':''}>Out of stock</option></select></div><div id="pt">${ptable()}</div></div>`;
+V.add=()=>{const p=editId?find(editId):{},f=(l,n,t,v,x='')=>`<div><label for="${n}">${l}</label><input id="${n}" name="${n}" type="${t}" value="${esc(v??'')}" ${x}></div>`;
+return head(editId?'Edit Product':'Add Product',editId?'Update the details and save.':'Fill in the product details. Fields marked * are required.')+`<form class="card" data-f="prod" novalidate><div id="er" class="er" role="alert"></div><div class="fg">${f('Product name *','name','text',p.name,'placeholder="e.g. Urea, DAP, NPK"')}${f('Company / brand *','brand','text',p.brand,'placeholder="e.g. Engro"')}
+<div><label for="cat">Category *</label><select id="cat" name="cat">${opts(CATS,p.cat)}</select></div>${f('Package size *','size','text',p.size,'placeholder="e.g. 50kg"')}${f('Purchase price (Rs) *','buy','number',p.buy,'min="0" step="any"')}${f('Selling price (Rs) *','sell','number',p.sell,'min="0" step="any"')}${f('Available quantity *','qty','number',p.qty??'','min="0" step="1"')}
+<div><label for="im">Product image (optional)</label><input id="im" type="file" accept="image/*"></div><div class="full"><label for="desc">Description</label><textarea id="desc" name="desc" rows="3">${esc(p.desc)}</textarea></div></div><p><button type="submit">Save Product</button> ${editId?'<button type="button" class="sec" data-a="new">Cancel</button>':''}</p></form>`};
+V.stock=()=>{const low=S.p.filter(p=>st(p)!=='ok');return head('Stock Management',`Low stock warning at ${S.set.limit} units or fewer (change in Settings)`)+`<div class="two"><form class="card" data-f="stock" novalidate><h2>Change stock</h2><div id="er" class="er" role="alert"></div><div class="fg"><div class="full"><label for="sp">Product</label><select id="sp" name="pid">${pOpts()||'<option value="">No products</option>'}</select></div><div><label for="sa">Action</label><select id="sa" name="act"><option value="add">Increase (stock received)</option><option value="rem">Decrease (damaged, returned, etc.)</option></select></div><div><label for="sq">Quantity</label><input id="sq" name="qty" type="number" min="1" step="1"></div><div class="full"><label for="sn">Note (optional)</label><input id="sn" name="note" placeholder="e.g. New delivery from supplier"></div></div><p><button type="submit">Update Stock</button></p></form>
+<div class="card"><h2>Warnings</h2>${tbl(['Product','Stock','Status'],low.map(p=>`<tr><td>${esc(nm(p))}</td><td>${p.qty}</td><td>${bd(p)}</td></tr>`),'No stock warnings.')}</div></div>
+<div class="card"><h2>Stock movement history</h2>${tbl(['Date','Product','Type','Change','Stock after','Note','By'],S.m.slice(0,60).map(m=>`<tr><td>${fd(m.t)}</td><td>${esc(m.name)}</td><td>${esc(m.type)}</td><td>${m.qty>0?'+':''}${m.qty}</td><td>${m.after}</td><td>${esc(m.note)}</td><td>${esc(by(m.u))}</td></tr>`),'No movements yet.')}</div>`};
+const cartH=()=>{let t=0;const r=cart.map((c,i)=>{const p=find(c.id),s=p.sell*c.qty;t+=s;return`<tr><td>${esc(nm(p))}</td><td>${c.qty}</td><td class="r">${rs(p.sell)}</td><td class="r">${rs(s)}</td><td><button class="sm dng" data-a="rm" data-id="${i}" aria-label="Remove">✕</button></td></tr>`});return tbl(['Item','Qty','Price','Amount',''],r,'No items on this bill yet.')+`<p class="tot">Total: ${rs(t)}</p>`};
+V.sales=()=>head('New Sale','Pick products, enter quantity and complete the sale.')+`<div class="card"><div id="er" class="er" role="alert"></div><div class="bar"><select id="bp" aria-label="Product" style="flex:3 1 260px">${pOpts(p=>p.qty>0)||'<option value="">No stock available</option>'}</select><input id="bq" type="number" min="1" step="1" placeholder="Quantity" aria-label="Quantity"><button data-a="line" style="flex:0 0 auto">Add to bill</button></div><div id="cart">${cartH()}</div><div class="bar" style="margin-top:14px"><input id="cu" placeholder="Customer name (optional)" aria-label="Customer"><button class="gold" data-a="sale">Complete Sale &amp; Receipt</button></div></div>`;
+const rcH=s=>`<div id="rc"><h3>${esc(S.set.name)}</h3><p style="text-align:center">Tel: ${esc(S.set.phone)} · Pakistan</p><hr><p>Receipt: ${s.id}<br>${fd(s.t)}${s.cust?'<br>Customer: '+esc(s.cust):''}</p><table>${s.items.map(i=>`<tr><td>${esc(i.name)}</td><td>${i.qty} × ${rs(i.price)}</td><td class="r">${rs(i.qty*i.price)}</td></tr>`).join('')}</table><hr><p class="tot">Total: ${rs(s.total)}</p><p style="text-align:center">Thank you for your business.</p></div><p class="noprint"><button data-a="print">Print Receipt</button> <button class="sec" data-a="close">Close</button></p>`;
+V.history=()=>head('Sales History',`${S.s.length} sales recorded`)+`<div class="card">${tbl(['Receipt','Date','Customer','Sold by','Items','Total',''],S.s.map(s=>`<tr><td>${s.id}</td><td>${fd(s.t)}</td><td>${esc(s.cust||'-')}</td><td>${esc(by(s.u))}</td><td>${s.items.reduce((a,i)=>a+i.qty,0)}</td><td class="r">${rs(s.total)}</td><td><button class="sm sec" data-a="rc" data-id="${s.id}">View receipt</button></td></tr>`),'No sales yet.')}</div>`;
+V.reports=()=>{const now=new Date(),d0=new Date(now.getFullYear(),now.getMonth(),now.getDate()).getTime(),m0=new Date(now.getFullYear(),now.getMonth(),1).getTime(),sum=f=>S.s.filter(f).reduce((a,s)=>a+s.total,0),pr=S.s.reduce((a,s)=>a+s.items.reduce((b,i)=>b+(i.price-i.cost)*i.qty,0),0),top={};
+S.s.forEach(s=>s.items.forEach(i=>{top[i.name]=top[i.name]||{q:0,r:0};top[i.name].q+=i.qty;top[i.name].r+=i.qty*i.price}));const tp=Object.entries(top).sort((a,b)=>b[1].q-a[1].q).slice(0,8),cat={};S.p.forEach(p=>{cat[p.cat]=cat[p.cat]||{n:0,q:0,v:0};cat[p.cat].n++;cat[p.cat].q+=p.qty;cat[p.cat].v+=p.qty*p.buy});
+const c=(l,v)=>`<div class="st"><small>${l}</small><div>${v}</div></div>`;
+return head('Reports','Sales and stock summary')+`<div class="grid">${c('Today’s sales',rs(sum(s=>s.t>=d0)))}${c('This month',rs(sum(s=>s.t>=m0)))}${c('All-time sales',rs(sum(()=>1)))}${c('Profit on sales',rs(pr))}${c('Stock value (retail)',rs(S.p.reduce((a,p)=>a+p.qty*p.sell,0)))}</div><div class="two"><div class="card"><h2>Best-selling products</h2>${tbl(['Product','Sold','Revenue'],tp.map(([n,v])=>`<tr><td>${esc(n)}</td><td>${v.q}</td><td>${rs(v.r)}</td></tr>`),'No sales yet.')}</div><div class="card"><h2>Stock by category</h2>${tbl(['Category','Products','Units','Value (cost)'],Object.entries(cat).map(([n,v])=>`<tr><td>${esc(n)}</td><td>${v.n}</td><td>${v.q}</td><td>${rs(v.v)}</td></tr>`),'No products.')}</div></div>`};
+V.settings=()=>head('Settings')+`<form class="card" data-f="set" novalidate><div id="er" class="er" role="alert"></div><div class="fg"><div><label for="bn">Business name</label><input id="bn" name="name" value="${esc(S.set.name)}"></div><div><label for="bt">Contact number</label><input id="bt" name="phone" value="${esc(S.set.phone)}"></div><div><label for="bl">Low stock limit (units)</label><input id="bl" name="limit" type="number" min="0" step="1" value="${S.set.limit}"></div></div><p><button type="submit">Save Settings</button></p></form>
+<div class="card"><h2>Backup and reset</h2><p>Data is saved in this browser on this device. Copy the backup text and keep it safe, or paste a backup to restore it.</p><textarea id="bk" rows="4" aria-label="Backup text"></textarea><p><button class="sec" data-a="bk">Show backup text</button> <button data-a="rs">Restore from text</button> <button class="dng" data-a="reset">Delete all data</button></p></div>`;
+function render(){const h=(location.hash||'#dashboard').slice(1),v=V[h]?h:'dashboard';if(v!=='add')editId=null;
+$('#sb').innerHTML=`<div class="brand"><div class="logo">${ic('M12 21V8M12 12c-4 0-6-2-6-6 4 0 6 2 6 6zM12 12c4 0 6-2 6-6-4 0-6 2-6 6zM12 17c-3 0-5-1.5-5-4.5 3 0 5 1.5 5 4.5zM12 17c3 0 5-1.5 5-4.5-3 0-5 1.5-5 4.5z')}</div><b>${esc(S.set.name)}</b></div>`+NAV.map(n=>`<a href="#${n[0]}" class="${n[0]===v?'on':''}">${ic(n[2])}${n[1]}</a>`).join('')+`<div class="sf">📞 ${esc(S.set.phone)}</div>`;
+$('#tn').textContent=S.set.name;$('#main').innerHTML=V[v]();$('#sb').classList.remove('open');scrollTo(0,0)}
+const err=m=>{const e=$('#er');e.innerHTML=Array.isArray(m)?m.join('<br>'):m;e.scrollIntoView({block:'center'})};
+const A={menu:()=>$('#sb').classList.toggle('open'),close:closeM,print:()=>window.print(),
+new:()=>{editId=null;img='';location.hash==='#add'?render():location.hash='add'},
+view:id=>{const p=find(id);modal(`<h2>${esc(p.name)}</h2>${p.img?`<img src="${p.img}" alt="" style="max-width:100%;border-radius:10px;margin-top:10px">`:''}<dl class="dl"><dt>Product ID</dt><dd>${p.id}</dd><dt>Company</dt><dd>${esc(p.brand)}</dd><dt>Category</dt><dd>${esc(p.cat)}</dd><dt>Package size</dt><dd>${esc(p.size)}</dd><dt>Purchase price</dt><dd>${rs(p.buy)}</dd><dt>Selling price</dt><dd>${rs(p.sell)}</dd><dt>Available stock</dt><dd>${p.qty} ${bd(p)}</dd><dt>Description</dt><dd>${esc(p.desc||'-')}</dd><dt>Added</dt><dd>${fd(p.created)}</dd></dl><button class="sec" data-a="close">Close</button>`)},
+edit:id=>{editId=id;img=find(id).img||'';location.hash==='#add'?render():location.hash='add'},
+del:id=>{const p=find(id);modal(`<h2>Delete this product?</h2><p><b>${esc(nm(p))}</b> (${esc(p.brand)}) will be removed from the store. Past sales receipts are kept.</p><button class="dng" data-a="delok" data-id="${id}">Yes, delete</button> <button class="sec" data-a="close">Cancel</button>`)},
+delok:id=>{S.p=S.p.filter(p=>p.id!==id);cart=cart.filter(c=>c.id!==id);save();closeM();toast('Product deleted.');render()},
+line:()=>{const id=$('#bp').value,q=+$('#bq').value,p=find(id);if(!p)return err('Choose a product.');if(!Number.isInteger(q)||q<1)return err('Enter a whole quantity of 1 or more.');
+const have=(cart.find(c=>c.id===id)||{qty:0}).qty;if(have+q>p.qty)return err(`Only ${p.qty} in stock for ${nm(p)}.`);err('');const c=cart.find(c=>c.id===id);c?c.qty+=q:cart.push({id,qty:q});$('#bq').value='';$('#cart').innerHTML=cartH()},
+rm:i=>{cart.splice(+i,1);$('#cart').innerHTML=cartH()},
+sale:()=>{if(!cart.length)return err('Add at least one product to the bill.');for(const c of cart){const p=find(c.id);if(!p||p.qty<c.qty)return err(`Not enough stock for ${p?nm(p):'a product'}.`)}
+S.sn++;const s={id:'S'+String(S.sn).padStart(4,'0'),t:Date.now(),cust:$('#cu').value.trim(),items:[],total:0};
+cart.forEach(c=>{const p=find(c.id);p.qty-=c.qty;mv(p,'Sale',-c.qty,s.id);s.items.push({name:nm(p),qty:c.qty,price:p.sell,cost:p.buy});s.total+=p.sell*c.qty});S.s.unshift(s);cart=[];save();modal(rcH(s));render()},
+rc:id=>modal(rcH(S.s.find(s=>s.id===id))),
+bk:()=>{$('#bk').value=JSON.stringify(S)},
+rs:()=>{try{const d=JSON.parse($('#bk').value);if(!Array.isArray(d.p)||!Array.isArray(d.s)||!d.set)throw 0;S=d;save();toast('Backup restored.');render()}catch(e){toast('That backup text is not valid.',1)}},
+reset:()=>modal(`<h2>Delete all data?</h2><p>All products, stock history and sales will be erased. This cannot be undone.</p><button class="dng" data-a="resetok">Yes, delete everything</button> <button class="sec" data-a="close">Cancel</button>`),
+resetok:()=>{S=null;try{localStorage.removeItem(K)}catch(e){}init();closeM();toast('All data deleted.');location.hash='dashboard';render()}};
+const F={prod(f){const d=Object.fromEntries(new FormData(f)),e=[],name=d.name.trim(),brand=d.brand.trim(),size=d.size.trim(),buy=+d.buy,sell=+d.sell,qty=+d.qty;
+if(!name)e.push('Enter the product name.');if(!brand)e.push('Enter the company or brand name.');if(!size)e.push('Enter the package size, for example 50kg.');
+if(d.buy===''||!(buy>=0))e.push('Purchase price must be 0 or more.');if(d.sell===''||!(sell>=0))e.push('Selling price must be 0 or more.');
+if(!e.length&&sell<buy)e.push('Selling price is lower than the purchase price. Please check both prices.');
+if(d.qty===''||!Number.isInteger(qty)||qty<0)e.push('Quantity must be a whole number, 0 or more.');
+if(S.p.some(p=>p.id!==editId&&(p.name+p.brand+p.size).toLowerCase()===(name+brand+size).toLowerCase()))e.push('This product already exists. Edit it or change the size.');
+if(e.length)return err(e);const o={name,brand,size,cat:d.cat,buy,sell,qty,desc:d.desc.trim(),img};
+const eid=editId;return run(()=>saveProd(o,eid),eid?'Product updated.':'Product saved.',()=>{editId=null;img='';location.hash='products'})},
+stock(f){const d=Object.fromEntries(new FormData(f)),p=find(d.pid),q=+d.qty;if(!p)return err('Choose a product.');if(!Number.isInteger(q)||q<1)return err('Enter a whole quantity of 1 or more.');
+if(d.act==='rem'&&q>p.qty)return err(`Cannot remove ${q}. Only ${p.qty} in stock.`);p.qty+=d.act==='add'?q:-q;mv(p,d.act==='add'?'Stock added':'Stock removed',d.act==='add'?q:-q,d.note.trim());save();
+toast(`${nm(p)} now has ${p.qty} in stock.${st(p)!=='ok'?' '+(st(p)==='out'?'Out of stock!':'Low stock!'):''}`,st(p)==='out');render()},
+set(f){const d=Object.fromEntries(new FormData(f)),l=+d.limit;if(!d.name.trim()||!d.phone.trim())return err('Business name and contact number are required.');if(d.limit===''||!Number.isInteger(l)||l<0)return err('Low stock limit must be a whole number, 0 or more.');
+S.set={name:d.name.trim(),phone:d.phone.trim(),limit:l};save();toast('Settings saved.');render()}};
+document.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(b)A[b.dataset.a](b.dataset.id)});
+document.addEventListener('submit',e=>{e.preventDefault();F[e.target.dataset.f](e.target)});
+document.addEventListener('input',e=>{const i=e.target.id;if(i==='fq'||i==='fc'||i==='fs'){Q[{fq:'q',fc:'c',fs:'s'}[i]]=e.target.value;$('#pt').innerHTML=ptable()}});
+document.addEventListener('change',e=>{if(e.target.id!=='im'||!e.target.files[0])return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,320/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);img=c.toDataURL('image/jpeg',.75)};im.onerror=()=>{img='';toast('Could not read that image.',1)};im.src=r.result};r.readAsDataURL(e.target.files[0])});
+addEventListener('hashchange',()=>render());addEventListener('keydown',e=>{if(e.key==='Escape')closeM()});
+/* =====================================================================
+   SHARED DATABASE LAYER (Firebase)
+   Everything below makes the app work the same on every device.
+   Data lives online in Firebase Firestore. When one partner changes
+   something, Firebase pushes the change to all other devices live.
+   ===================================================================== */
+
+// STEP 1: Paste YOUR Firebase settings here (from Firebase console -> Project settings -> Your apps -> Web app).
+const firebaseConfig = {
+  apiKey: "AIzaSyAwn3oE4WA5D3jAXnUg9URqXTk7sOwWBFA",
+  authDomain: "fertilizer-store-aa723.firebaseapp.com",
+  projectId: "fertilizer-store-aa723",
+  storageBucket: "fertilizer-store-aa723.firebasestorage.app",
+  messagingSenderId: "661041817677",
+  appId: "1:661041817677:web:5985638313382afe7e5404"
+};
+
+// Variables used by this layer
+let db, auth;                 // db = Firestore database, auth = login system
+let uid = null;               // the email of the partner who is signed in (null = nobody)
+let ready = false;            // true once all shared data has arrived from the internet
+let tmo = false;              // true if loading is taking too long
+let noDb = '';                // message shown if Firebase is not set up / not loaded
+let authChecked = false;      // true once Firebase told us if someone is signed in
+let loginErr = '';            // error text shown on the sign in form
+let unsubs = [];              // list of "stop listening" functions for the live data
+let NM = {}, G = {};          // NM = partner display names, G = which data pieces have loaded
+const DEF = { name: 'Your Fertilizer Store', phone: '0300-4502900', limit: 10 };
+
+// Empty starting data (the live data replaces this)
+S = { set: { ...DEF }, p: [], m: [], s: [], n: 0, sn: 0 };
+function init() {}   // not needed any more (data no longer comes from this browser)
+function save() {}   // not needed any more (every action saves itself to Firebase)
+
+// Shows "You" for your own actions, or the partner's name (the part of their email before @)
+const by = u => u && u === uid ? 'You' : NM[u] || 'Partner';
+const names = a => a.forEach(x => { if (x.u && !NM[x.u]) NM[x.u] = String(x.u).split('@')[0]; });
+
+// Turns technical errors into simple messages
+const fail = e => {
+  const c = (e.code || '') + ' ' + (e.message || '');
+  if (/permission|denied/i.test(c)) return 'You do not have permission. Please sign in with a partner account.';
+  if (/unavailable|network|offline/i.test(c)) return 'No internet connection. Please try again when you are online.';
+  return e.message || 'Could not save. Please try again.';
+};
+
+// run() = do a save, show a message, then do something after.
+// (Firebase transactions below already keep two partners from clashing.)
+const tx = fn => fn();
+async function run(fn, ok, done) {
+  try { await tx(fn); if (ok) toast(ok); done && done(); }
+  catch (e) { toast(fail(e), 1); }
+}
+
+// Builds one "stock movement" record (shown in Stock history)
+const mvData = (p, type, qty, after, note) =>
+  ({ t: Date.now(), id: p.id, name: nm(p), type, qty, after, note: note || '', u: uid });
+
+// ---------- ADD or EDIT a product ----------
+async function saveProd(o, eid) {
+  // A transaction = read + write together, so two partners cannot overwrite each other by mistake
+  await db.runTransaction(async t => {
+    if (eid) {                                   // editing an existing product
+      const pr = db.doc('products/' + eid);
+      const snap = await t.get(pr);
+      if (!snap.exists) throw Error('This product was deleted by another partner.');
+      const old = snap.data();
+      t.update(pr, o);
+      if (o.qty - old.qty) t.set(db.collection('moves').doc(), mvData({ id: eid, ...o }, 'Edited', o.qty - old.qty, o.qty, 'Quantity changed while editing'));
+    } else {                                     // adding a new product
+      const cr = db.doc('config/main');
+      const c = (await t.get(cr)).data() || {};
+      const n = (c.n || 0) + 1;                  // next product number
+      const id = 'P' + String(n).padStart(3, '0');
+      const p = { id, ...o, created: Date.now() };
+      t.set(db.doc('products/' + id), p);
+      t.set(cr, { n }, { merge: true });
+      if (o.qty) t.set(db.collection('moves').doc(), mvData(p, 'Opening stock', o.qty, o.qty));
+    }
+  });
+}
+
+// ---------- ADD or REMOVE stock ----------
+F.stock = f => {
+  const d = Object.fromEntries(new FormData(f)), q = +d.qty;
+  if (!find(d.pid)) return err('Choose a product.');
+  if (!Number.isInteger(q) || q < 1) return err('Enter a whole quantity of 1 or more.');
+  const dl = d.act === 'add' ? q : -q;           // +q when adding, -q when removing
+  let np;
+  return run(async () => {
+    await db.runTransaction(async t => {
+      const pr = db.doc('products/' + d.pid);
+      const snap = await t.get(pr);              // always read the LATEST stock from the database
+      if (!snap.exists) throw Error('This product was deleted by another partner.');
+      const p = snap.data();
+      if (p.qty + dl < 0) throw Error(`Cannot remove ${q}. Only ${p.qty} in stock.`);
+      np = { ...p, qty: p.qty + dl };
+      t.update(pr, { qty: np.qty });
+      t.set(db.collection('moves').doc(), mvData(np, dl > 0 ? 'Stock added' : 'Stock removed', dl, np.qty, d.note.trim()));
+    });
+  }, null, () => {
+    toast(`${nm(np)} now has ${np.qty} in stock.${st(np) !== 'ok' ? ' ' + (st(np) === 'out' ? 'Out of stock!' : 'Low stock!') : ''}`, st(np) === 'out');
+    render();
+  });
+};
+
+// ---------- SETTINGS ----------
+F.set = f => {
+  const d = Object.fromEntries(new FormData(f)), l = +d.limit;
+  if (!d.name.trim() || !d.phone.trim()) return err('Business name and contact number are required.');
+  if (d.limit === '' || !Number.isInteger(l) || l < 0) return err('Low stock limit must be a whole number, 0 or more.');
+  return run(() => db.doc('config/main').set({ name: d.name.trim(), phone: d.phone.trim(), limit: l }, { merge: true }), 'Settings saved.', () => render());
+};
+
+// ---------- DELETE a product ----------
+A.delok = async id => {
+  try { await db.doc('products/' + id).delete(); cart = cart.filter(c => c.id !== id); closeM(); toast('Product deleted.'); }
+  catch (e) { closeM(); toast(fail(e), 1); }
+};
+
+// ---------- MAKE A SALE ----------
+A.sale = () => {
+  if (!cart.length) return err('Add at least one product to the bill.');
+  const cu = $('#cu').value.trim(), items = cart.map(c => ({ ...c }));
+  let s;
+  return run(async () => {
+    await db.runTransaction(async t => {
+      // 1) READ the latest stock of every product and the bill counter
+      const cr = db.doc('config/main');
+      const cfg = (await t.get(cr)).data() || {};
+      const refs = items.map(c => db.doc('products/' + c.id));
+      const snaps = await Promise.all(refs.map(r => t.get(r)));
+      // 2) CHECK and build the bill
+      const sn = (cfg.sn || 0) + 1;
+      const sale = { id: 'S' + String(sn).padStart(4, '0'), t: Date.now(), cust: cu, items: [], total: 0, u: uid };
+      const writes = [];
+      snaps.forEach((sp, i) => {
+        if (!sp.exists) throw Error('A product in this bill was deleted by another partner.');
+        const p = sp.data(), c = items[i], q = p.qty - c.qty;
+        if (p.qty < c.qty) throw Error(`Not enough stock for ${nm(p)}. Only ${p.qty} left.`);
+        writes.push([refs[i], q, { ...p, qty: q }, c.qty]);
+        sale.items.push({ name: nm(p), qty: c.qty, price: p.sell, cost: p.buy });
+        sale.total += p.sell * c.qty;
+      });
+      // 3) WRITE everything together
+      writes.forEach(([ref, q, np, cq]) => {
+        t.update(ref, { qty: q });
+        t.set(db.collection('moves').doc(), mvData(np, 'Sale', -cq, q, sale.id));
+      });
+      t.set(db.doc('sales/' + sale.id), sale);
+      t.set(cr, { sn }, { merge: true });
+      s = sale;
+    });
+  }, null, () => { cart = []; modal(rcH(s)); render(); });
+};
+
+// ---------- DELETE ALL DATA ----------
+A.reset = () => modal(`<h2>Delete all data?</h2><p>All products, stock history and sales will be erased for <b>every partner</b>. This cannot be undone.</p><button class="dng" data-a="resetok">Yes, delete everything</button> <button class="sec" data-a="close">Cancel</button>`);
+A.resetok = async () => {
+  try {
+    for (const c of ['products', 'moves', 'sales']) {
+      let snap;
+      do {                                       // delete in small groups of 400
+        snap = await db.collection(c).limit(400).get();
+        const b = db.batch();
+        snap.docs.forEach(d => b.delete(d.ref));
+        if (snap.size) await b.commit();
+      } while (snap.size);
+    }
+    await db.doc('config/main').delete();
+    cart = []; closeM(); toast('All data deleted.'); location.hash = 'dashboard'; render();
+  } catch (e) { closeM(); toast(fail(e), 1); }
+};
+
+// ---------- SETTINGS PAGE: replaces the old "Backup and reset" card ----------
+const adminCard = () => `<div class="card"><h2>Account and shared data</h2><p>Signed in as <b>${esc(uid)}</b>. Everyone who signs in sees the same live data on any phone or laptop.</p><p><button class="sec" data-a="logout">Log out</button> <button class="dng" data-a="reset">Delete all data</button></p></div>`;
+const _vs = V.settings;
+V.settings = () => _vs().replace(/<div class="card"><h2>Backup and reset[\s\S]*$/, adminCard());
+
+// ---------- LOGIN ----------
+const loginCard = () => `<div class="card" style="max-width:420px;margin:40px auto"><h2>Partner sign in</h2><p style="color:var(--mu)">Sign in to see and update the shared store data.</p><div class="er">${esc(loginErr)}</div><form data-f="login"><div class="fg" style="grid-template-columns:1fr"><div><label for="em">Email</label><input id="em" name="email" type="email" autocomplete="username" required></div><div><label for="pw">Password</label><input id="pw" name="password" type="password" autocomplete="current-password" required></div></div><p><button type="submit">Sign in</button></p></form></div>`;
+F.login = f => {
+  const d = Object.fromEntries(new FormData(f));
+  loginErr = '';
+  auth.signInWithEmailAndPassword(d.email.trim(), d.password).catch(e => {
+    loginErr = /invalid|wrong|not-found|credential/i.test(e.code || '') ? 'Wrong email or password.' : (e.message || 'Could not sign in.');
+    render();
+  });
+};
+A.logout = () => auth.signOut();
+
+// ---------- WHAT TO SHOW BEFORE DATA IS READY ----------
+const _r = render;
+const gate = () => noDb ? `<div class="card em"><h2>Shared data is not available</h2><p>${esc(noDb)}</p></div>`
+  : !authChecked ? `<div class="card em">Loading…</div>`
+  : !uid ? loginCard()
+  : `<div class="card em">${tmo ? 'Cannot reach the shared data yet. Check your internet connection. This page keeps trying.' : 'Loading store data…'}</div>`;
+render = function () { if (!ready) { $('#main').innerHTML = gate(); return; } _r(); };
+
+// ---------- LIVE UPDATES: refresh the screen when another partner changes something ----------
+function refresh() {
+  if (!ready) return;
+  const h = (location.hash || '#dashboard').slice(1), f = document.activeElement,
+    ty = f && $('#main').contains(f) && /INPUT|TEXTAREA|SELECT/.test(f.tagName);   // ty = true if you are typing right now
+  cart = cart.filter(c => find(c.id));
+  const b = $('.brand b'); if (b) b.textContent = S.set.name;
+  $('#tn').textContent = S.set.name;
+  if (h === 'products') { const t = $('#pt'); t ? t.innerHTML = ptable() : render(); }
+  else if (h !== 'add' && h !== 'settings' && !ty) { const y = scrollY; _r(); scrollTo(0, y); }   // don't interrupt typing
+}
+const upd = () => { if (!ready) { if (G.p && G.c && G.m && G.s) { ready = true; render(); } } else refresh(); };
+
+// Start listening to the 4 pieces of shared data (runs after sign in)
+function startListening() {
+  const er = e => toast('Live connection problem: ' + fail(e), 1);
+  unsubs = [
+    db.collection('products').onSnapshot(s => { S.p = s.docs.map(d => d.data()).sort((a, b) => a.id < b.id ? -1 : 1); G.p = 1; upd(); }, er),
+    db.doc('config/main').onSnapshot(s => { const c = s.data() || {}; S.set = { name: c.name || DEF.name, phone: c.phone || DEF.phone, limit: c.limit ?? DEF.limit }; G.c = 1; upd(); }, er),
+    db.collection('moves').orderBy('t', 'desc').limit(200).onSnapshot(s => { S.m = s.docs.map(d => d.data()); names(S.m); G.m = 1; upd(); }, er),
+    db.collection('sales').orderBy('t', 'desc').limit(1000).onSnapshot(s => { S.s = s.docs.map(d => d.data()); names(S.s); G.s = 1; upd(); }, er)
+  ];
+  setTimeout(() => { if (!ready && uid) { tmo = true; render(); } }, 10000);
+}
+// Stop listening (used when logging out)
+function stopListening() {
+  unsubs.forEach(u => u()); unsubs = []; G = {}; ready = false; tmo = false;
+  S = { set: { ...DEF }, p: [], m: [], s: [], n: 0, sn: 0 };
+}
+
+// ---------- START ----------
+function boot() {
+  if (typeof firebase === 'undefined') { noDb = 'Could not load Firebase. Check your internet connection and refresh the page.'; authChecked = true; render(); return; }
+  if (firebaseConfig.apiKey.startsWith('PASTE')) { noDb = 'Firebase is not set up yet. Paste your Firebase settings into the firebaseConfig part of this file.'; authChecked = true; render(); return; }
+  firebase.initializeApp(firebaseConfig);
+  auth = firebase.auth();
+  db = firebase.firestore();
+  // This runs whenever someone signs in or out (also when the page opens and they are already signed in)
+  auth.onAuthStateChanged(u => {
+    authChecked = true;
+    stopListening();
+    uid = u ? (u.email || u.uid).toLowerCase() : null;
+    if (u) startListening();
+    render();
+  });
+}
+boot(); render();
+</script></body></html>
